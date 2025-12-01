@@ -1,604 +1,646 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Linkedin, Mail, Music, Server, Users, Cloud, Cpu, Shield, ExternalLink, MapPin, Briefcase, Send, CheckCircle, AlertCircle, Loader2, GraduationCap, Factory, Rocket, Database } from 'lucide-react';
-
-const Portfolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [scrolled, setScrolled] = useState(false);
-
-  // Handle scroll effect for navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-      setActiveSection(id);
-    }
-  };
-
-  const navLinks = [
-    { name: 'Inicio', id: 'home' },
-    { name: 'Sobre Mí', id: 'about' },
-    { name: 'Perfil Profesional', id: 'professional' },
-    { name: 'Música', id: 'music' },
-    { name: 'Contacto', id: 'contact' },
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-900 text-slate-200 font-sans selection:bg-cyan-500 selection:text-white overflow-x-hidden">
-      
-      {/* Navbar */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-800' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex-shrink-0 cursor-pointer" onClick={() => scrollToSection('home')}>
-              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
-                FRAN HIDALGO
-              </span>
-            </div>
-            
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.id)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${activeSection === link.id ? 'text-cyan-400' : 'text-slate-300 hover:text-white'}`}
-                  >
-                    {link.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Panel */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navLinks.map((link) => (
-                <button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.id)}
-                  className="block w-full text-left px-3 py-4 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800"
-                >
-                  {link.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center pt-20">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-40 -left-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 order-2 md:order-1">
-            <div className="inline-block px-4 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-sm font-semibold tracking-wide">
-              Digitalización e Innovación
-            </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
-              Transformando <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-                El Futuro Digital
-              </span>
-            </h1>
-            <p className="text-xl text-slate-400 max-w-lg">
-              Responsable de Área de Servicios de Digitalización en Nasertic. Apasionado por la tecnología y la música.
-            </p>
-            <div className="flex gap-4 pt-4">
-              <button onClick={() => scrollToSection('contact')} className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1">
-                Contactar
-              </button>
-              <button onClick={() => scrollToSection('professional')} className="px-8 py-3 rounded-full border border-slate-600 text-slate-300 font-bold hover:bg-slate-800 transition-all">
-                Perfil Profesional
-              </button>
-            </div>
-          </div>
-          
-          <div className="order-1 md:order-2 flex justify-center">
-            <div className="relative w-64 h-64 md:w-96 md:h-96">
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-              <img 
-                src="https://assets.zyrosite.com/A0xw85P27aUvekyM/20230314_073913-6xwkEUVpB9tqnZce.jpg" 
-                alt="Fran Hidalgo" 
-                className="relative w-full h-full object-cover rounded-full border-4 border-slate-800 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-24 bg-slate-800/50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white">Sobre Mí</h2>
-          <p className="text-lg text-slate-300 leading-relaxed mb-6">
-            Pertenezco a la Generación X, vivo en <span className="text-cyan-400 font-semibold">Pamplona</span> y soy un apasionado de las nuevas tecnologías, razón por la cual disfruto enormemente desarrollandome profesionalmente en el ámbito de la digitalización.
-          </p>
-          <p className="text-lg text-slate-300 leading-relaxed mb-6">
-            Creo firmemente que la tecnología debe estar al servicio de las personas. Cuando se utiliza adecuadamente y de manera responsable, potencia enormemente nuestras capacidades.
-          </p>
-          <p className="text-lg text-slate-300 leading-relaxed">
-            Fuera del ámbito profesional, aunque sin perder la conexión con la curiosidad técnica, disfruto de otras pasiones como la música, el cine y los cubos de Rubik.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <Card icon={<MapPin className="text-cyan-400" size={32} />} title="Ubicación" desc="Pamplona, Navarra" />
-            <Card icon={<Briefcase className="text-cyan-400" size={32} />} title="Profesión" desc="Responsable Área Servicios Digitalización" />
-            <Card icon={<Music className="text-cyan-400" size={32} />} title="Afición" desc="Tecnología, Música, Cine y Puzzles" />
-          </div>
-        </div>
-      </section>
-
-      {/* Professional Section & Skills (REDESIGNED) */}
-      <section id="professional" className="py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Header & Main Content Split */}
-          <div className="grid md:grid-cols-2 gap-12 mb-20 items-start">
-            
-            {/* Left: Description */}
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white flex items-center gap-3">
-                <Server className="text-cyan-500" />
-                Perfil Profesional
-              </h2>
-              <div className="prose prose-invert text-slate-300 text-lg leading-relaxed">
-                <p className="mb-6">
-                  Como Responsable de Área de Servicios de Digitalización en <a href="http://www.nasertic.es" target="_blank" rel="noreferrer" className="text-white hover:text-cyan-400 transition-colors font-bold underline decoration-cyan-500/30 underline-offset-4 hover:decoration-cyan-500">Nasertic</a>, mi misión es colaborar en la transformación digital de nuestra región.
-                </p>
-                <p className="mb-6">
-                  Gestiono equipos de personas liderando proyectos que impactan directamente en la ciudadanía como en la propia digitalización de los diferentes Departamentos de Gobierno de Navarra.
-                </p>
-                <p>
-                  En un entorno tecnológico en constante cambio y evolución, el aprendizaje continuo y adaptación es indispensable. Me motiva explorar cómo tecnologías emergentes como la IA pueden integrarse de forma ética y sostenible.
-                </p>
-              </div>
-            </div>
-
-            {/* Right: Skills (Now balanced with description) */}
-            <div className="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-              <h3 className="text-2xl font-bold mb-8 text-white relative z-10">Competencias Clave</h3>
-              <div className="space-y-6 relative z-10">
-                <SkillBar skill="Gestión de Personas" percentage={94} icon={<Users size={16} />} />
-                <SkillBar skill="Planificación Estratégica" percentage={92} icon={<Briefcase size={16} />} />
-                <SkillBar skill="Infraestructura TI" percentage={93} icon={<Server size={16} />} />
-                <SkillBar skill="Cloud Computing" percentage={92} icon={<Cloud size={16} />} />
-                <SkillBar skill="Inteligencia Artificial" percentage={95} icon={<Cpu size={16} />} />
-                <SkillBar skill="Seguridad de la Información" percentage={96} icon={<Shield size={16} />} />
-              </div>
-            </div>
-          </div>
-
-          {/* Full Width Projects Grid (Moved to bottom) */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-8 border-l-4 border-cyan-500 pl-4">
-              Tipos de Proyectos que Lidero
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
-                  <GraduationCap className="text-cyan-400" size={24} />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-3">Capacitación Digital</h4>
-                <p className="text-sm text-slate-400">
-                  Impulso de programas formativos para reducir la brecha digital y rural, con el fin de capacitar a la sociedad en el uso de herramientas tecnológicas.
-                </p>
-              </div>
-              
-              <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
-                  <Factory className="text-cyan-400" size={24} />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-3">Industria 4.0</h4>
-                <p className="text-sm text-slate-400">
-                  Acompañamiento en la digitalización de procesos productivos para mejorar la competitividad del tejido industrial.
-                </p>
-              </div>
-              
-              <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
-                  <Rocket className="text-cyan-400" size={24} />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-3">Nuevas Tecnologías</h4>
-                <p className="text-sm text-slate-400">
-                  Integración de soluciones innovadoras y gestión del cambio para asegurar una adopción exitosa.
-                </p>
-              </div>
-              
-              <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
-                  <Database className="text-cyan-400" size={24} />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-3">Gobernanza del Dato</h4>
-                <p className="text-sm text-slate-400">
-                  Gestión del dato promoviendo su transparencia, gobernanza, ética y valor.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Music Section */}
-      <section id="music" className="py-24 bg-gradient-to-b from-slate-900 to-indigo-950/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-cyan-400 font-bold tracking-wider uppercase text-sm">Mi lado creativo</span>
-            <h2 className="text-3xl md:text-5xl font-bold mt-2 text-white">Pasión por la Música</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            
-            {/* Tarjeta 1: Formación Clásica */}
-            <div className="relative group h-full">
-              <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative bg-slate-800 p-8 rounded-2xl shadow-xl h-full flex flex-col">
-                <div>
-                  <Music size={48} className="text-pink-500 mb-6" />
-                  <h3 className="text-2xl font-bold text-white mb-4">Formación Clásica</h3>
-                  <p className="text-slate-300 mb-4">
-                    Cursé estudios de <strong>Solfeo, Armonía y Piano</strong> en el Conservatorio Superior de Música Pablo Sarasate de Pamplona.
-                  </p>
-                  <p className="text-slate-400 text-sm">
-                    Me encanta escuchar diferentes estilos y dedico mis ratos libres a la composición, encontrando en el piano un refugio de creatividad.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Tarjeta 2: Mundo Ukelele */}
-            <div className="relative group h-full">
-              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative bg-slate-800 p-8 rounded-2xl shadow-xl h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex justify-between items-start mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 text-yellow-500"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                    <a href="http://www.navarraukeclub.org" target="_blank" rel="noreferrer" className="text-xs font-bold text-yellow-500 border border-yellow-500 px-2 py-1 rounded hover:bg-yellow-500 hover:text-slate-900 transition-colors">
-                      Visitar Navarra UkeClub
-                    </a>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Mundo Ukelele</h3>
-                  <p className="text-slate-300 mb-4">
-                    Hace años descubrí la calidez de este pequeño instrumento y aprendí a tocarlo de forma autodidacta.
-                  </p>
-                  <p className="text-slate-400 text-sm">
-                    Esta pasión me llevó a fundar con varios compañeros/as la asociación Navarra UkeClub, en la que actualmente ostento el cargo de presidente.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-24 bg-slate-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Conectemos</h2>
-            <p className="text-slate-400">
-              ¿Interesado en transformación digital, tecnología o música?
-            </p>
-          </div>
-
-          <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <a 
-                href="https://linkedin.com/in/franhidalgo" 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center justify-center gap-3 p-4 bg-[#0077b5] hover:bg-[#006396] text-white rounded-xl transition-all transform hover:-translate-y-1 shadow-lg"
-              >
-                <Linkedin size={24} />
-                <span className="font-semibold">LinkedIn Profile</span>
-              </a>
-              
-              <a 
-                href="mailto:contacto@franhidalgo.com" 
-                className="flex items-center justify-center gap-3 p-4 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-all transform hover:-translate-y-1 shadow-lg"
-              >
-                <Mail size={24} />
-                <span className="font-semibold">Enviar Email</span>
-              </a>
-            </div>
-
-            {/* EmailJS Integrated Form */}
-            <ContactForm />
-
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 bg-slate-950 text-center text-slate-500 text-sm border-t border-slate-900">
-        <p>© {new Date().getFullYear()} Fran Hidalgo. Todos los derechos reservados.</p>
-      </footer>
-    </div>
-  );
-};
-
-// --- SUB-COMPONENTS ---
-
-// 1. Skill Bar Component
-const SkillBar = ({ skill, percentage, icon }) => {
-  const [width, setWidth] = useState(0);
-  const barRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setTimeout(() => setWidth(percentage), 200);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (barRef.current) {
-      observer.observe(barRef.current);
-    }
-
-    return () => {
-      if (barRef.current) observer.unobserve(barRef.current);
-    };
-  }, [percentage]);
-
-  return (
-    <div ref={barRef} className="w-full">
-      <div className="flex justify-between mb-2">
-        <div className="flex items-center gap-2 text-slate-300 font-medium">
-          <span className="text-cyan-400">{icon}</span>
-          {skill}
-        </div>
-        <span className="text-cyan-400 font-bold">{percentage}%</span>
-      </div>
-      <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000 ease-out"
-          style={{ width: `${width}%` }}
-        ></div>
-      </div>
-    </div>
-  );
-};
-
-// 2. Card Component
-const Card = ({ icon, title, desc }) => (
-  <div className="relative group h-full">
-    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-    <div className="relative p-6 bg-slate-800 rounded-2xl flex flex-col items-center h-full shadow-xl">
-      <div className="mb-4 bg-slate-900 w-16 h-16 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-        {icon}
-      </div>
-      <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
-      <p className="text-slate-400">{desc}</p>
-    </div>
-  </div>
-);
-
-// 3. Contact Form Component with Dual Email Send (Admin + AutoReply)
-const ContactForm = () => {
-  // --------------------------------------------------------------------------
-  // DATOS CONFIGURADOS
-  // --------------------------------------------------------------------------
-  const SERVICE_ID = 'service_qk1ajet';   
-  const TEMPLATE_ID_ADMIN = 'template_8oxbd5g'; // Tu correo
-  const TEMPLATE_ID_AUTOREPLY = 'template_5z3pune'; // Correo para el usuario
-  const PUBLIC_KEY = '5UZ9pMVHSPsUBZDfk'; 
-  // --------------------------------------------------------------------------
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (status === 'error') setStatus('idle'); // Limpiar error al escribir
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Fran Hidalgo</title>
     
-    // Validación básica
-    if (!formData.name || !formData.email || !formData.message) return;
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel (para traducir JSX en el navegador) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    setStatus('sending');
-    setErrorMessage('');
+    <!-- Estilos base -->
+    <style>
+        body { font-family: sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200">
+    <div id="root"></div>
 
-    // 1. Datos para TU correo (Admin)
-    const dataAdmin = {
-      service_id: SERVICE_ID,
-      template_id: TEMPLATE_ID_ADMIN,
-      user_id: PUBLIC_KEY,
-      template_params: {
-        name: formData.name,       
-        from_name: formData.name,  
-        email: formData.email,     
-        from_email: formData.email,
-        reply_to: formData.email,
-        to_name: 'Fran Hidalgo',
-        to_email: 'contacto@franhidalgo.com',
-        message: formData.message,
-      }
-    };
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    // 2. Datos para el USUARIO (Auto-reply)
-    const dataAutoReply = {
-      service_id: SERVICE_ID,
-      template_id: TEMPLATE_ID_AUTOREPLY,
-      user_id: PUBLIC_KEY,
-      template_params: {
-        name: formData.name,       // Para el saludo "Hola {{name}}"
-        to_name: formData.name,    
-        user_email: formData.email, // Importante: Configura tu template para enviar a {{user_email}} o {{email}}
-        email: formData.email,      // Enviamos ambos por si acaso
-        reply_to: 'contacto@franhidalgo.com', // Para que puedan responderte a ti
-      }
-    };
+        // --- ICONOS (SVG Inline para evitar dependencias externas) ---
+        const IconBase = ({ children, size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {children}
+            </svg>
+        );
 
-    try {
-      // Enviamos AMBOS correos en paralelo
-      const sendAdminPromise = fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataAdmin),
-      });
+        const Menu = (props) => <IconBase {...props}><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></IconBase>;
+        const X = (props) => <IconBase {...props}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></IconBase>;
+        const Linkedin = (props) => <IconBase {...props}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></IconBase>;
+        const Mail = (props) => <IconBase {...props}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></IconBase>;
+        const Music = (props) => <IconBase {...props}><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></IconBase>;
+        const Server = (props) => <IconBase {...props}><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></IconBase>;
+        const Users = (props) => <IconBase {...props}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></IconBase>;
+        const Cloud = (props) => <IconBase {...props}><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></IconBase>;
+        const Cpu = (props) => <IconBase {...props}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></IconBase>;
+        const Shield = (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></IconBase>;
+        const ExternalLink = (props) => <IconBase {...props}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></IconBase>;
+        const MapPin = (props) => <IconBase {...props}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></IconBase>;
+        const Briefcase = (props) => <IconBase {...props}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></IconBase>;
+        const Send = (props) => <IconBase {...props}><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></IconBase>;
+        const CheckCircle = (props) => <IconBase {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></IconBase>;
+        const AlertCircle = (props) => <IconBase {...props}><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></IconBase>;
+        const Loader2 = ({ className, ...props }) => <IconBase className={`animate-spin ${className}`} {...props}><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></IconBase>;
+        const GraduationCap = (props) => <IconBase {...props}><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></IconBase>;
+        const Factory = (props) => <IconBase {...props}><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></IconBase>;
+        const Rocket = (props) => <IconBase {...props}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></IconBase>;
+        const Database = (props) => <IconBase {...props}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></IconBase>;
 
-      const sendAutoReplyPromise = fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataAutoReply),
-      });
 
-      // Esperamos a que ambos terminen (o fallen)
-      const [responseAdmin, responseAutoReply] = await Promise.all([sendAdminPromise, sendAutoReplyPromise]);
+        // --- COMPONENTE PRINCIPAL ---
+        const Portfolio = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [activeSection, setActiveSection] = useState('home');
+            const [scrolled, setScrolled] = useState(false);
 
-      // Verificamos si al menos el correo para ti (Admin) se envió bien.
-      // El auto-reply es secundario, si falla no bloqueamos el mensaje de éxito principal, 
-      // pero lo ideal es que ambos funcionen (status 200).
-      if (responseAdmin.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        const errorText = await responseAdmin.text();
-        console.error("EmailJS Admin API Error:", errorText);
-        throw new Error(errorText || 'Error al enviar el mensaje principal');
-      }
-      
-      // Log para debug del auto-reply (opcional)
-      if (!responseAutoReply.ok) {
-        const errorAuto = await responseAutoReply.text();
-        console.warn("Auto-reply falló (pero el mensaje principal se envió):", errorAuto);
-      }
+            // Handle scroll effect for navbar
+            useEffect(() => {
+                const handleScroll = () => {
+                setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
 
-    } catch (error) {
-      console.error('Error detallado:', error);
-      setErrorMessage(error.message);
-      setStatus('error');
-    }
-  };
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                setIsMenuOpen(false);
+                setActiveSection(id);
+                }
+            };
 
-  return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <div>
-        <label className="block text-sm font-medium text-slate-400 mb-1">Nombre</label>
-        <input 
-          type="text" 
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
-          placeholder="Tu nombre" 
-          disabled={status === 'sending'}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-        <input 
-          type="email" 
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
-          placeholder="tucorreo@ejemplo.com" 
-          disabled={status === 'sending'}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-400 mb-1">Mensaje</label>
-        <textarea 
-          rows="4" 
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
-          placeholder="¿En qué puedo ayudarte?"
-          disabled={status === 'sending'}
-        ></textarea>
-      </div>
+            const navLinks = [
+                { name: 'Inicio', id: 'home' },
+                { name: 'Sobre Mí', id: 'about' },
+                { name: 'Perfil Profesional', id: 'professional' },
+                { name: 'Música', id: 'music' },
+                { name: 'Contacto', id: 'contact' },
+            ];
 
-      <button 
-        type="submit" 
-        disabled={status === 'sending' || status === 'success'}
-        className={`w-full font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2
-          ${status === 'success' 
-            ? 'bg-green-600 text-white cursor-default' 
-            : status === 'error'
-            ? 'bg-red-600 text-white'
-            : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/20'
-          }
-        `}
-      >
-        {status === 'idle' && (
-          <>
-            Enviar Mensaje <Send size={20} />
-          </>
-        )}
-        {status === 'sending' && (
-          <>
-            Enviando... <Loader2 className="animate-spin" size={20} />
-          </>
-        )}
-        {status === 'success' && (
-          <>
-            ¡Mensaje Enviado! <CheckCircle size={20} />
-          </>
-        )}
-        {status === 'error' && (
-          <>
-            Error. Ver consola. <AlertCircle size={20} />
-          </>
-        )}
-      </button>
-      
-      {/* Mensaje de error visible para facilitar el debug */}
-      {status === 'error' && errorMessage && (
-        <div className="text-red-400 text-sm mt-2 text-center bg-red-900/20 p-2 rounded">
-          {errorMessage}
-        </div>
-      )}
-    </form>
-  );
-};
+            return (
+                <div className="min-h-screen bg-slate-900 text-slate-200 font-sans selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+                
+                {/* Navbar */}
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-800' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-20">
+                        <div className="flex-shrink-0 cursor-pointer" onClick={() => scrollToSection('home')}>
+                        <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
+                            FRAN HIDALGO
+                        </span>
+                        </div>
+                        
+                        {/* Desktop Menu */}
+                        <div className="hidden md:block">
+                        <div className="ml-10 flex items-baseline space-x-8">
+                            {navLinks.map((link) => (
+                            <button
+                                key={link.name}
+                                onClick={() => scrollToSection(link.id)}
+                                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${activeSection === link.id ? 'text-cyan-400' : 'text-slate-300 hover:text-white'}`}
+                            >
+                                {link.name}
+                            </button>
+                            ))}
+                        </div>
+                        </div>
 
-export default Portfolio;
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
+                        >
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+
+                    {/* Mobile Menu Panel */}
+                    {isMenuOpen && (
+                    <div className="md:hidden bg-slate-900 border-b border-slate-800">
+                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        {navLinks.map((link) => (
+                            <button
+                            key={link.name}
+                            onClick={() => scrollToSection(link.id)}
+                            className="block w-full text-left px-3 py-4 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800"
+                            >
+                            {link.name}
+                            </button>
+                        ))}
+                        </div>
+                    </div>
+                    )}
+                </nav>
+
+                {/* Hero Section */}
+                <section id="home" className="relative min-h-screen flex items-center justify-center pt-20">
+                    <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute top-40 -left-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"></div>
+                    </div>
+                    
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6 order-2 md:order-1">
+                        <div className="inline-block px-4 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-sm font-semibold tracking-wide">
+                        Digitalización e Innovación
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+                        Transformando <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+                            El Futuro Digital
+                        </span>
+                        </h1>
+                        <p className="text-xl text-slate-400 max-w-lg">
+                        Responsable de Área de Servicios de Digitalización en Nasertic. Apasionado por la tecnología y la música.
+                        </p>
+                        <div className="flex gap-4 pt-4">
+                        <button onClick={() => scrollToSection('contact')} className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1">
+                            Contactar
+                        </button>
+                        <button onClick={() => scrollToSection('professional')} className="px-8 py-3 rounded-full border border-slate-600 text-slate-300 font-bold hover:bg-slate-800 transition-all">
+                            Perfil Profesional
+                        </button>
+                        </div>
+                    </div>
+                    
+                    <div className="order-1 md:order-2 flex justify-center">
+                        <div className="relative w-64 h-64 md:w-96 md:h-96">
+                        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
+                        <img 
+                            src="https://assets.zyrosite.com/A0xw85P27aUvekyM/20230314_073913-6xwkEUVpB9tqnZce.jpg" 
+                            alt="Fran Hidalgo" 
+                            className="relative w-full h-full object-cover rounded-full border-4 border-slate-800 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+                        />
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* About Section */}
+                <section id="about" className="py-24 bg-slate-800/50">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white">Sobre Mí</h2>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-6">
+                        Pertenezco a la Generación X, vivo en <span className="text-cyan-400 font-semibold">Pamplona</span> y soy un apasionado de las nuevas tecnologías, razón por la cual disfruto enormemente desarrollandome profesionalmente en el ámbito de la digitalización.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed mb-6">
+                        Creo firmemente que la tecnología debe estar al servicio de las personas. Cuando se utiliza adecuadamente y de manera responsable, potencia enormemente nuestras capacidades.
+                    </p>
+                    <p className="text-lg text-slate-300 leading-relaxed">
+                        Fuera del ámbito profesional, aunque sin perder la conexión con la curiosidad técnica, disfruto de otras pasiones como la música, el cine y los cubos de Rubik.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                        <Card icon={<MapPin className="text-cyan-400" size={32} />} title="Ubicación" desc="Pamplona, Navarra" />
+                        <Card icon={<Briefcase className="text-cyan-400" size={32} />} title="Profesión" desc="Responsable Área Servicios Digitalización" />
+                        <Card icon={<Music className="text-cyan-400" size={32} />} title="Afición" desc="Tecnología, Música, Cine y Puzzles" />
+                    </div>
+                    </div>
+                </section>
+
+                {/* Professional Section & Skills (REDESIGNED) */}
+                <section id="professional" className="py-24 relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    {/* Header & Main Content Split */}
+                    <div className="grid md:grid-cols-2 gap-12 mb-20 items-start">
+                        
+                        {/* Left: Description */}
+                        <div>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white flex items-center gap-3">
+                            <Server className="text-cyan-500" />
+                            Perfil Profesional
+                        </h2>
+                        <div className="prose prose-invert text-slate-300 text-lg leading-relaxed">
+                            <p className="mb-6">
+                            Como Responsable de Área de Servicios de Digitalización en <a href="http://www.nasertic.es" target="_blank" rel="noreferrer" className="text-white hover:text-cyan-400 transition-colors font-bold underline decoration-cyan-500/30 underline-offset-4 hover:decoration-cyan-500">Nasertic</a>, mi misión es colaborar en la transformación digital de nuestra región.
+                            </p>
+                            <p className="mb-6">
+                            Gestiono equipos de personas liderando proyectos que impactan directamente en la ciudadanía como en la propia digitalización de los diferentes Departamentos de Gobierno de Navarra.
+                            </p>
+                            <p>
+                            En un entorno tecnológico en constante cambio y evolución, el aprendizaje continuo y adaptación es indispensable. Me motiva explorar cómo tecnologías emergentes como la IA pueden integrarse de forma ética y sostenible.
+                            </p>
+                        </div>
+                        </div>
+
+                        {/* Right: Skills (Now balanced with description) */}
+                        <div className="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                        <h3 className="text-2xl font-bold mb-8 text-white relative z-10">Competencias Clave</h3>
+                        <div className="space-y-6 relative z-10">
+                            <SkillBar skill="Gestión de Personas" percentage={94} icon={<Users size={16} />} />
+                            <SkillBar skill="Planificación Estratégica" percentage={92} icon={<Briefcase size={16} />} />
+                            <SkillBar skill="Infraestructura TI" percentage={93} icon={<Server size={16} />} />
+                            <SkillBar skill="Cloud Computing" percentage={92} icon={<Cloud size={16} />} />
+                            <SkillBar skill="Inteligencia Artificial" percentage={95} icon={<Cpu size={16} />} />
+                            <SkillBar skill="Seguridad de la Información" percentage={96} icon={<Shield size={16} />} />
+                        </div>
+                        </div>
+                    </div>
+
+                    {/* Full Width Projects Grid (Moved to bottom) */}
+                    <div>
+                        <h3 className="text-2xl font-bold text-white mb-8 border-l-4 border-cyan-500 pl-4">
+                        Tipos de Proyectos que Lidero
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
+                            <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
+                            <GraduationCap className="text-cyan-400" size={24} />
+                            </div>
+                            <h4 className="text-lg font-bold text-white mb-3">Capacitación Digital</h4>
+                            <p className="text-sm text-slate-400">
+                            Impulso de programas formativos para reducir la brecha digital y rural, con el fin de capacitar a la sociedad en el uso de herramientas tecnológicas.
+                            </p>
+                        </div>
+                        
+                        <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
+                            <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
+                            <Factory className="text-cyan-400" size={24} />
+                            </div>
+                            <h4 className="text-lg font-bold text-white mb-3">Industria 4.0</h4>
+                            <p className="text-sm text-slate-400">
+                            Acompañamiento en la digitalización de procesos productivos para mejorar la competitividad del tejido industrial.
+                            </p>
+                        </div>
+                        
+                        <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
+                            <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
+                            <Rocket className="text-cyan-400" size={24} />
+                            </div>
+                            <h4 className="text-lg font-bold text-white mb-3">Nuevas Tecnologías</h4>
+                            <p className="text-sm text-slate-400">
+                            Integración de soluciones innovadoras y gestión del cambio para asegurar una adopción exitosa.
+                            </p>
+                        </div>
+                        
+                        <div className="p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group">
+                            <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors">
+                            <Database className="text-cyan-400" size={24} />
+                            </div>
+                            <h4 className="text-lg font-bold text-white mb-3">Gobernanza del Dato</h4>
+                            <p className="text-sm text-slate-400">
+                            Gestión del dato promoviendo su transparencia, gobernanza, ética y valor.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </section>
+
+                {/* Music Section */}
+                <section id="music" className="py-24 bg-gradient-to-b from-slate-900 to-indigo-950/30">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <span className="text-cyan-400 font-bold tracking-wider uppercase text-sm">Mi lado creativo</span>
+                        <h2 className="text-3xl md:text-5xl font-bold mt-2 text-white">Pasión por la Música</h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-12">
+                        
+                        {/* Tarjeta 1: Formación Clásica */}
+                        <div className="relative group h-full">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="relative bg-slate-800 p-8 rounded-2xl shadow-xl h-full flex flex-col">
+                            <div>
+                            <Music size={48} className="text-pink-500 mb-6" />
+                            <h3 className="text-2xl font-bold text-white mb-4">Formación Clásica</h3>
+                            <p className="text-slate-300 mb-4">
+                                Cursé estudios de <strong>Solfeo, Armonía y Piano</strong> en el Conservatorio Superior de Música Pablo Sarasate de Pamplona.
+                            </p>
+                            <p className="text-slate-400 text-sm">
+                                Me encanta escuchar diferentes estilos y dedico mis ratos libres a la composición, encontrando en el piano un refugio de creatividad.
+                            </p>
+                            </div>
+                        </div>
+                        </div>
+
+                        {/* Tarjeta 2: Mundo Ukelele */}
+                        <div className="relative group h-full">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="relative bg-slate-800 p-8 rounded-2xl shadow-xl h-full flex flex-col justify-between">
+                            <div>
+                            <div className="flex justify-between items-start mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 text-yellow-500"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                <a href="http://www.navarraukeclub.org" target="_blank" rel="noreferrer" className="text-xs font-bold text-yellow-500 border border-yellow-500 px-2 py-1 rounded hover:bg-yellow-500 hover:text-slate-900 transition-colors">
+                                Visitar Navarra UkeClub
+                                </a>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-4">Mundo Ukelele</h3>
+                            <p className="text-slate-300 mb-4">
+                                Hace años descubrí la calidez de este pequeño instrumento y aprendí a tocarlo de forma autodidacta.
+                            </p>
+                            <p className="text-slate-400 text-sm">
+                                Esta pasión me llevó a fundar con varios compañeros/as la asociación Navarra UkeClub, en la que actualmente ostento el cargo de presidente.
+                            </p>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </section>
+
+                {/* Contact Section */}
+                <section id="contact" className="py-24 bg-slate-900">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Conectemos</h2>
+                        <p className="text-slate-400">
+                        ¿Interesado en transformación digital, tecnología o música?
+                        </p>
+                    </div>
+
+                    <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
+                        <div className="grid md:grid-cols-2 gap-8 mb-8">
+                        <a 
+                            href="https://linkedin.com/in/franhidalgo" 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="flex items-center justify-center gap-3 p-4 bg-[#0077b5] hover:bg-[#006396] text-white rounded-xl transition-all transform hover:-translate-y-1 shadow-lg"
+                        >
+                            <Linkedin size={24} />
+                            <span className="font-semibold">LinkedIn Profile</span>
+                        </a>
+                        
+                        <a 
+                            href="mailto:contacto@franhidalgo.com" 
+                            className="flex items-center justify-center gap-3 p-4 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-all transform hover:-translate-y-1 shadow-lg"
+                        >
+                            <Mail size={24} />
+                            <span className="font-semibold">Enviar Email</span>
+                        </a>
+                        </div>
+
+                        {/* EmailJS Integrated Form */}
+                        <ContactForm />
+
+                    </div>
+                    </div>
+                </section>
+
+                {/* Footer */}
+                <footer className="py-8 bg-slate-950 text-center text-slate-500 text-sm border-t border-slate-900">
+                    <p>© {new Date().getFullYear()} Fran Hidalgo. Todos los derechos reservados.</p>
+                </footer>
+                </div>
+            );
+        };
+
+        // --- SUB-COMPONENTS ---
+
+        const SkillBar = ({ skill, percentage, icon }) => {
+            const [width, setWidth] = useState(0);
+            const barRef = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                    setTimeout(() => setWidth(percentage), 200);
+                    }
+                },
+                { threshold: 0.1 }
+                );
+
+                if (barRef.current) {
+                observer.observe(barRef.current);
+                }
+
+                return () => {
+                if (barRef.current) observer.unobserve(barRef.current);
+                };
+            }, [percentage]);
+
+            return (
+                <div ref={barRef} className="w-full">
+                <div className="flex justify-between mb-2">
+                    <div className="flex items-center gap-2 text-slate-300 font-medium">
+                    <span className="text-cyan-400">{icon}</span>
+                    {skill}
+                    </div>
+                    <span className="text-cyan-400 font-bold">{percentage}%</span>
+                </div>
+                <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+                    <div 
+                    className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${width}%` }}
+                    ></div>
+                </div>
+                </div>
+            );
+        };
+
+        const Card = ({ icon, title, desc }) => (
+            <div className="relative group h-full">
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative p-6 bg-slate-800 rounded-2xl flex flex-col items-center h-full shadow-xl">
+                <div className="mb-4 bg-slate-900 w-16 h-16 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    {icon}
+                </div>
+                <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
+                <p className="text-slate-400">{desc}</p>
+                </div>
+            </div>
+        );
+
+        const ContactForm = () => {
+            const SERVICE_ID = 'service_qk1ajet';   
+            const TEMPLATE_ID_ADMIN = 'template_8oxbd5g'; 
+            const TEMPLATE_ID_AUTOREPLY = 'template_5z3pune';
+            const PUBLIC_KEY = '5UZ9pMVHSPsUBZDfk'; 
+
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                message: ''
+            });
+            
+            const [status, setStatus] = useState('idle');
+            const [errorMessage, setErrorMessage] = useState('');
+
+            const handleChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+                if (status === 'error') setStatus('idle');
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!formData.name || !formData.email || !formData.message) return;
+
+                setStatus('sending');
+                setErrorMessage('');
+
+                const dataAdmin = {
+                service_id: SERVICE_ID,
+                template_id: TEMPLATE_ID_ADMIN,
+                user_id: PUBLIC_KEY,
+                template_params: {
+                    name: formData.name,       
+                    from_name: formData.name,  
+                    email: formData.email,     
+                    from_email: formData.email,
+                    reply_to: formData.email,
+                    to_name: 'Fran Hidalgo',
+                    to_email: 'contacto@franhidalgo.com',
+                    message: formData.message,
+                }
+                };
+
+                const dataAutoReply = {
+                service_id: SERVICE_ID,
+                template_id: TEMPLATE_ID_AUTOREPLY,
+                user_id: PUBLIC_KEY,
+                template_params: {
+                    name: formData.name,       
+                    to_name: formData.name,    
+                    user_email: formData.email, 
+                    email: formData.email,      
+                    reply_to: 'contacto@franhidalgo.com', 
+                }
+                };
+
+                try {
+                const sendAdminPromise = fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataAdmin),
+                });
+
+                const sendAutoReplyPromise = fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataAutoReply),
+                });
+
+                const [responseAdmin, responseAutoReply] = await Promise.all([sendAdminPromise, sendAutoReplyPromise]);
+
+                if (responseAdmin.ok) {
+                    setStatus('success');
+                    setFormData({ name: '', email: '', message: '' });
+                    setTimeout(() => setStatus('idle'), 5000);
+                } else {
+                    const errorText = await responseAdmin.text();
+                    console.error("EmailJS Admin API Error:", errorText);
+                    throw new Error(errorText || 'Error al enviar el mensaje principal');
+                }
+                
+                if (!responseAutoReply.ok) {
+                    const errorAuto = await responseAutoReply.text();
+                    console.warn("Auto-reply falló (pero el mensaje principal se envió):", errorAuto);
+                }
+
+                } catch (error) {
+                console.error('Error detallado:', error);
+                setErrorMessage(error.message);
+                setStatus('error');
+                }
+            };
+
+            return (
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Nombre</label>
+                    <input 
+                    type="text" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
+                    placeholder="Tu nombre" 
+                    disabled={status === 'sending'}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
+                    <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
+                    placeholder="tucorreo@ejemplo.com" 
+                    disabled={status === 'sending'}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Mensaje</label>
+                    <textarea 
+                    rows="4" 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50" 
+                    placeholder="¿En qué puedo ayudarte?"
+                    disabled={status === 'sending'}
+                    ></textarea>
+                </div>
+
+                <button 
+                    type="submit" 
+                    disabled={status === 'sending' || status === 'success'}
+                    className={`w-full font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2
+                    ${status === 'success' 
+                        ? 'bg-green-600 text-white cursor-default' 
+                        : status === 'error'
+                        ? 'bg-red-600 text-white'
+                        : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/20'
+                    }
+                    `}
+                >
+                    {status === 'idle' && (
+                    <>
+                        Enviar Mensaje <Send size={20} />
+                    </>
+                    )}
+                    {status === 'sending' && (
+                    <>
+                        Enviando... <Loader2 className="animate-spin" size={20} />
+                    </>
+                    )}
+                    {status === 'success' && (
+                    <>
+                        ¡Mensaje Enviado! <CheckCircle size={20} />
+                    </>
+                    )}
+                    {status === 'error' && (
+                    <>
+                        Error. Ver consola. <AlertCircle size={20} />
+                    </>
+                    )}
+                </button>
+                
+                {status === 'error' && errorMessage && (
+                    <div className="text-red-400 text-sm mt-2 text-center bg-red-900/20 p-2 rounded">
+                    {errorMessage}
+                    </div>
+                )}
+                </form>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Portfolio />);
+    </script>
+</body>
+</html>
