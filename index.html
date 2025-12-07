@@ -1,3 +1,4 @@
+<!-- VERSION CON VÍDEOS INTEGRADOS (Diseño solicitado: 1 vídeo grande arriba, 2 shorts abajo) -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -335,7 +336,7 @@
                         <h2 className="text-3xl md:text-5xl font-bold mt-2 text-white">Pasión por la Música</h2>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-12">
+                    <div className="grid md:grid-cols-2 gap-12 mb-16">
                         
                         {/* Tarjeta 1: Formación Clásica */}
                         <div className="relative group h-full">
@@ -378,34 +379,17 @@
 
                     </div>
 
-                    {/* --- GALERÍA DE VÍDEOS (Sin título, sin enlaces de texto) --- */}
-                    <div className="mt-12">
-                        {/* Fila 1: Vídeos Horizontales (Piano) */}
-                        <div className="grid md:grid-cols-2 gap-8 mb-12">
-                            {/* Vídeo 1: Amelie */}
-                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700">
+                    {/* VÍDEOS: Integración directa sin títulos ni textos extra */}
+                    <div className="space-y-12">
+                        {/* Fila 1: Vídeo Horizontal Único (Amelie) - Full Width */}
+                        <div className="mb-12">
+                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700 bg-black">
                                 <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                                 <div className="aspect-video relative z-10">
                                     <iframe 
                                         className="w-full h-full" 
                                         src="https://www.youtube-nocookie.com/embed/A01cBa7pVng?rel=0" 
-                                        title="Comptine d'un autre été (Yann Tiersen) - Amelie OST Piano Cover" 
-                                        frameBorder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                        referrerPolicy="strict-origin-when-cross-origin"
-                                        allowFullScreen>
-                                    </iframe>
-                                </div>
-                            </div>
-
-                            {/* Vídeo 2: Wim Mertens */}
-                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-                                <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                                <div className="aspect-video relative z-10">
-                                    <iframe 
-                                        className="w-full h-full" 
-                                        src="https://www.youtube-nocookie.com/embed/9DK0c_xnL7g?rel=0" 
-                                        title="Close Cover (Wim Mertens) - Piano Cover" 
+                                        title="Amelie OST Piano Cover" 
                                         frameBorder="0" 
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                         referrerPolicy="strict-origin-when-cross-origin"
@@ -415,15 +399,14 @@
                             </div>
                         </div>
 
-                        {/* Fila 2: Shorts (Verticales) */}
+                        {/* Fila 2: Shorts (Verticales) - Centrados */}
                         <div className="max-w-4xl mx-auto grid grid-cols-2 gap-4 md:gap-12">
-                            {/* Short 1: Interstellar */}
-                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700 aspect-[9/16]">
+                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700 bg-black aspect-[9/16]">
                                 <div className="absolute -inset-1 bg-gradient-to-tr from-pink-500/20 to-purple-600/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                                 <iframe 
                                     className="w-full h-full relative z-10" 
                                     src="https://www.youtube.com/embed/3a-nw1X8WEM?rel=0" 
-                                    title="INTERSTELLAR Theme with ORBA 2" 
+                                    title="Interstellar Theme" 
                                     frameBorder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                     referrerPolicy="strict-origin-when-cross-origin"
@@ -431,13 +414,12 @@
                                 </iframe>
                             </div>
 
-                            {/* Short 2: Toy Story */}
-                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700 aspect-[9/16]">
+                            <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-slate-700 bg-black aspect-[9/16]">
                                 <div className="absolute -inset-1 bg-gradient-to-tr from-yellow-500/20 to-orange-600/20 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                                 <iframe 
                                     className="w-full h-full relative z-10" 
                                     src="https://www.youtube.com/embed/_Mrf9sb0SjI?rel=0" 
-                                    title="HAY UN AMIGO EN MI - Toy Story Ukelele" 
+                                    title="Toy Story Ukelele" 
                                     frameBorder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                     referrerPolicy="strict-origin-when-cross-origin"
