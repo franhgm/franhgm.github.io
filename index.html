@@ -22,6 +22,13 @@
 
     <style>
         body { font-family: sans-serif; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-200">
@@ -62,27 +69,126 @@
         const Ukulele = (props) => el(IconBase, { ...props, strokeWidth: 1.5 }, el("g", { transform: "rotate(45 12 12)" }, el("path", { d: "M9.5 2h5c.8 0 1.5.7 1.5 1.5v3c0 .8-.7 1.5-1.5 1.5h-.5v3.6c2.1.8 3.5 2.8 3.5 5.2 0 3.2-2.7 5.8-6 5.8s-6-2.6-6-5.8c0-2.3 1.4-4.4 3.5-5.2V8H9.5C8.7 8 8 7.3 8 6.5v-3C8 2.7 8.7 2 9.5 2z" }), el("circle", { cx: "12", cy: "16", r: "2" }), el("path", { d: "M10.5 20h3" })));
 
         // --- COMPONENTES AUXILIARES ---
-        const categoryColors = {
-            "Liderazgo": "bg-purple-500/10 text-purple-400 border-purple-500/20",
-            "Estrategia": "bg-amber-500/10 text-amber-400 border-amber-500/20",
-            "Sistemas": "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-            "Innovación": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-            "Ciberseguridad": "bg-rose-500/10 text-rose-400 border-rose-500/20"
+        const categoryConfig = {
+            "Liderazgo": {
+                badge: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                glow: "rgba(168, 85, 247, 0.15)",
+                glowBorder: "rgba(168, 85, 247, 0.3)",
+                iconBg: "group-hover:bg-purple-900/30",
+                iconColor: "text-purple-400",
+                borderHover: "group-hover:border-purple-500/30 hover:shadow-purple-500/5"
+            },
+            "Estrategia": {
+                badge: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+                glow: "rgba(245, 158, 11, 0.15)",
+                glowBorder: "rgba(245, 158, 11, 0.3)",
+                iconBg: "group-hover:bg-amber-900/30",
+                iconColor: "text-amber-400",
+                borderHover: "group-hover:border-amber-500/30 hover:shadow-amber-500/5"
+            },
+            "Sistemas": {
+                badge: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+                glow: "rgba(6, 182, 212, 0.15)",
+                glowBorder: "rgba(6, 182, 212, 0.3)",
+                iconBg: "group-hover:bg-cyan-900/30",
+                iconColor: "text-cyan-400",
+                borderHover: "group-hover:border-cyan-500/30 hover:shadow-cyan-500/5"
+            },
+            "Innovación": {
+                badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                glow: "rgba(16, 185, 129, 0.15)",
+                glowBorder: "rgba(16, 185, 129, 0.3)",
+                iconBg: "group-hover:bg-emerald-900/30",
+                iconColor: "text-emerald-400",
+                borderHover: "group-hover:border-emerald-500/30 hover:shadow-emerald-500/5"
+            },
+            "Ciberseguridad": {
+                badge: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+                glow: "rgba(244, 63, 94, 0.15)",
+                glowBorder: "rgba(244, 63, 94, 0.3)",
+                iconBg: "group-hover:bg-rose-900/30",
+                iconColor: "text-rose-400",
+                borderHover: "group-hover:border-rose-500/30 hover:shadow-rose-500/5"
+            }
         };
 
-        const CompetencyCard = ({ skill, category, desc, icon }) => {
-            const colorClass = categoryColors[category] || "bg-slate-900/60 text-slate-400 border-slate-800";
-            return el("div", { 
-                className: "relative group bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 hover:border-cyan-500/50 rounded-2xl p-5 transition-all duration-300 hover:bg-slate-800/80 hover:-translate-y-1 flex flex-col justify-between h-full" 
+        const CompetencyCard = ({ skill, category, desc, icon, highlights = [] }) => {
+            const cardRef = useRef(null);
+            const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+            const [isHovered, setIsHovered] = useState(false);
+
+            const handleMouseMove = (e) => {
+                if (!cardRef.current) return;
+                const rect = cardRef.current.getBoundingClientRect();
+                setMousePos({
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                });
+            };
+
+            const cfg = categoryConfig[category] || {
+                badge: "bg-slate-900/60 text-slate-400 border-slate-800",
+                glow: "rgba(6, 182, 212, 0.1)",
+                glowBorder: "rgba(6, 182, 212, 0.2)",
+                iconBg: "group-hover:bg-slate-800",
+                iconColor: "text-slate-400",
+                borderHover: "group-hover:border-slate-750"
+            };
+
+            return el("div", {
+                ref: cardRef,
+                onMouseMove: handleMouseMove,
+                onMouseEnter: () => setIsHovered(true),
+                onMouseLeave: () => setIsHovered(false),
+                className: `relative overflow-hidden group bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between h-full shadow-xl hover:shadow-2xl ${cfg.borderHover}`
             },
-                el("div", { className: "absolute -inset-px bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-sm" }),
-                el("div", { className: "relative z-10 space-y-3" },
-                    el("div", { className: "flex items-center justify-between" },
-                        el("div", { className: "w-12 h-12 bg-slate-900 text-cyan-400 rounded-lg flex items-center justify-center group-hover:bg-cyan-900/30 transition-colors" }, icon),
-                        el("span", { className: `text-xs font-semibold px-2.5 py-0.5 rounded-full border ${colorClass}` }, category)
+                // Spotlight Background Glow
+                el("div", {
+                    className: "pointer-events-none absolute -inset-px transition-opacity duration-300 opacity-0 group-hover:opacity-100",
+                    style: {
+                        background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, ${cfg.glow}, transparent 80%)`
+                    }
+                }),
+                // Spotlight Border Glow
+                el("div", {
+                    className: "pointer-events-none absolute -inset-px transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-3xl border",
+                    style: {
+                        borderColor: 'transparent',
+                        backgroundImage: `radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, ${cfg.glowBorder}, transparent 80%)`,
+                        backgroundOrigin: 'border-box',
+                        backgroundClip: 'border-box'
+                    }
+                }),
+                el("div", { className: "relative z-10 flex flex-col h-full justify-between space-y-4" },
+                    el("div", { className: "space-y-4" },
+                        el("div", { className: "flex items-center justify-between" },
+                            el("div", { className: `w-12 h-12 bg-slate-900/80 ${cfg.iconColor} rounded-2xl flex items-center justify-center transition-all duration-350 group-hover:scale-110 ${cfg.iconBg} shadow-inner` }, icon),
+                            el("span", { className: `text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full border transition-all duration-300 group-hover:shadow-[0_0_15px_-3px_rgba(0,0,0,0.1)] ${cfg.badge}` }, category)
+                        ),
+                        el("div", { className: "space-y-2" },
+                            el("h4", { className: "text-lg font-bold text-white tracking-tight group-hover:text-cyan-300 transition-colors duration-300" }, skill),
+                            el("p", { className: "text-sm text-slate-400 leading-relaxed font-normal" }, desc)
+                        )
                     ),
-                    el("h4", { className: "text-lg font-bold text-white tracking-tight" }, skill),
-                    el("p", { className: "text-sm text-slate-400 leading-relaxed font-normal" }, desc)
+                    highlights && highlights.length > 0 && el("ul", { className: "space-y-2 pt-4 border-t border-slate-800/60 mt-auto" },
+                        highlights.map((h, i) => el("li", { key: i, className: "flex items-center gap-2 text-xs text-slate-300 font-medium tracking-wide" },
+                            el("svg", {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                width: "14",
+                                height: "14",
+                                viewBox: "0 0 24 24",
+                                fill: "none",
+                                stroke: "currentColor",
+                                strokeWidth: "3",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                className: `${cfg.iconColor} flex-shrink-0`
+                            },
+                                el("polyline", { points: "20 6 9 17 4 12" })
+                            ),
+                            el("span", null, h)
+                        ))
+                    )
                 )
             );
         };
@@ -172,6 +278,7 @@
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [activeSection, setActiveSection] = useState('home');
             const [scrolled, setScrolled] = useState(false);
+            const [selectedCategory, setSelectedCategory] = useState('Todas');
 
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -275,69 +382,83 @@
                                 el("p", null, "En un entorno tecnológico en constante cambio y evolución, el aprendizaje continuo y adaptación es indispensable. Me motiva explorar cómo tecnologías emergentes pueden integrarse de forma ética y sostenible.")
                             )
                         ),
-                        el("div", { className: "mb-20" },
-                            el("h3", { className: "text-2xl font-bold text-white mb-8 border-l-4 border-cyan-500 pl-4" }, "Competencias Clave"),
-                            el("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
-                                el(CompetencyCard, { 
-                                    skill: "Gestión de Personas", 
-                                    category: "Liderazgo", 
-                                    desc: "Liderazgo de equipos multidisciplinares, fomentando el desarrollo profesional y la alineación con objetivos estratégicos.",
-                                    icon: el(Users, { className: "text-cyan-400", size: 24 }) 
-                                }),
-                                el(CompetencyCard, { 
-                                    skill: "Planificación Estratégica", 
-                                    category: "Estrategia", 
-                                    desc: "Definición y ejecución de la hoja de ruta tecnológica alineada con la estrategia de negocio y digitalización pública.",
-                                    icon: el(Briefcase, { className: "text-cyan-400", size: 24 }) 
-                                }),
-                                el(CompetencyCard, { 
-                                    skill: "Infraestructura TI", 
-                                    category: "Sistemas", 
-                                    desc: "Dirección de infraestructuras críticas garantizando alta disponibilidad, seguridad y eficiencia operativa.",
-                                    icon: el(Server, { className: "text-cyan-400", size: 24 }) 
-                                }),
-                                el(CompetencyCard, { 
-                                    skill: "Cloud Computing", 
-                                    category: "Sistemas", 
-                                    desc: "Adopción e integración de soluciones híbridas y multi-cloud para flexibilizar y optimizar los servicios digitales.",
-                                    icon: el(Cloud, { className: "text-cyan-400", size: 24 }) 
-                                }),
-                                el(CompetencyCard, { 
-                                    skill: "Inteligencia Artificial", 
-                                    category: "Innovación", 
-                                    desc: "Exploración e implementación de soluciones cognitivas y automatización para optimizar procesos y toma de decisiones.",
-                                    icon: el(Cpu, { className: "text-cyan-400", size: 24 }) 
-                                }),
-                                el(CompetencyCard, { 
-                                    skill: "Seguridad de la Información", 
-                                    category: "Ciberseguridad", 
-                                    desc: "Políticas y controles para salvaguardar activos digitales y asegurar el cumplimiento del Esquema Nacional de Seguridad (ENS).",
-                                    icon: el(Shield, { className: "text-cyan-400", size: 24 }) 
-                                })
-                            )
-                        ),
                         el("div", null,
-                            el("h3", { className: "text-2xl font-bold text-white mb-8 border-l-4 border-cyan-500 pl-4" }, "Proyectos en los que Trabajo"),
-                            el("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" },
-                                el("div", { className: "p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group" },
-                                    el("div", { className: "w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors" }, el(GraduationCap, { className: "text-cyan-400", size: 24 })),
-                                    el("h4", { className: "text-lg font-bold text-white mb-3" }, "Capacitación Digital"),
-                                    el("p", { className: "text-sm text-slate-400" }, "Impulso de programas formativos para reducir la brecha digital y rural, con el fin de capacitar a la sociedad en el uso de herramientas tecnológicas.")
+                            el("div", { className: "flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12" },
+                                el("div", null,
+                                    el("h3", { className: "text-2xl font-bold text-white border-l-4 border-cyan-500 pl-4 mb-2" }, "Competencias Clave"),
+                                    el("p", { className: "text-sm text-slate-400 pl-4" }, "Especializaciones y áreas de expertise técnico y estratégico.")
                                 ),
-                                el("div", { className: "p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group" },
-                                    el("div", { className: "w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors" }, el(Factory, { className: "text-cyan-400", size: 24 })),
-                                    el("h4", { className: "text-lg font-bold text-white mb-3" }, "Industria 4.0"),
-                                    el("p", { className: "text-sm text-slate-400" }, "Acompañamiento en la digitalización de procesos productivos para mejorar la competitividad del tejido industrial.")
-                                ),
-                                el("div", { className: "p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group" },
-                                    el("div", { className: "w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors" }, el(Rocket, { className: "text-cyan-400", size: 24 })),
-                                    el("h4", { className: "text-lg font-bold text-white mb-3" }, "Nuevas Tecnologías"),
-                                    el("p", { className: "text-sm text-slate-400" }, "Integración de soluciones innovadoras y gestión del cambio para asegurar una adopción exitosa.")
-                                ),
-                                el("div", { className: "p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group" },
-                                    el("div", { className: "w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors" }, el(Database, { className: "text-cyan-400", size: 24 })),
-                                    el("h4", { className: "text-lg font-bold text-white mb-3" }, "Gobernanza del Dato"),
-                                    el("p", { className: "text-sm text-slate-400" }, "Gestión del dato promoviendo su transparencia, gobernanza, ética y valor.")
+                                el("div", { className: "flex flex-wrap gap-2" },
+                                    ["Todas", "Liderazgo", "Estrategia", "Sistemas", "Innovación", "Ciberseguridad"].map((cat) => {
+                                        const isActive = selectedCategory === cat;
+                                        return el("button", {
+                                            key: cat,
+                                            onClick: () => setSelectedCategory(cat),
+                                            className: `px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-300 ${
+                                                isActive
+                                                    ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20 scale-105"
+                                                    : "bg-slate-800/40 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700 hover:bg-slate-800/60"
+                                            }`
+                                        }, cat);
+                                    })
+                                )
+                            ),
+                            el("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
+                                [
+                                    {
+                                        skill: "Gestión de Personas",
+                                        category: "Liderazgo",
+                                        desc: "Liderazgo de equipos multidisciplinares, fomentando el desarrollo profesional y la alineación con objetivos estratégicos.",
+                                        icon: el(Users, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Mentoring y Desarrollo", "Equipos Multidisciplinares", "Resolución de Conflictos"]
+                                    },
+                                    {
+                                        skill: "Planificación Estratégica",
+                                        category: "Estrategia",
+                                        desc: "Definición y ejecución de la hoja de ruta tecnológica alineada con la estrategia de negocio y digitalización pública.",
+                                        icon: el(Briefcase, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Hojas de Ruta Tecnológicas", "Alineación de Negocio", "Gobernanza TI"]
+                                    },
+                                    {
+                                        skill: "Infraestructura TI",
+                                        category: "Sistemas",
+                                        desc: "Dirección de infraestructuras críticas garantizando alta disponibilidad, seguridad y eficiencia operativa.",
+                                        icon: el(Server, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Alta Disponibilidad", "Sistemas Críticos", "Eficiencia Operativa"]
+                                    },
+                                    {
+                                        skill: "Cloud Computing",
+                                        category: "Sistemas",
+                                        desc: "Adopción e integración de soluciones híbridas y multi-cloud para flexibilizar y optimizar los servicios digitales.",
+                                        icon: el(Cloud, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Arquitectura Híbrida", "Optimización de Costes", "Migraciones Complejas"]
+                                    },
+                                    {
+                                        skill: "Inteligencia Artificial",
+                                        category: "Innovación",
+                                        desc: "Exploración e implementación de soluciones cognitivas y automatización para optimizar procesos y toma de decisiones.",
+                                        icon: el(Cpu, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Automatización Inteligente", "Modelos Cognitivos", "Ética y Privacidad"]
+                                    },
+                                    {
+                                        skill: "Seguridad de la Información",
+                                        category: "Ciberseguridad",
+                                        desc: "Políticas y controles para salvaguardar activos digitales y asegurar el cumplimiento del Esquema Nacional de Seguridad (ENS).",
+                                        icon: el(Shield, { className: "text-cyan-400", size: 24 }),
+                                        highlights: ["Cumplimiento ENS", "Gestión de Riesgos", "Políticas de Ciberseguridad"]
+                                    }
+                                ]
+                                .filter(comp => selectedCategory === "Todas" || comp.category === selectedCategory)
+                                .map((comp) => 
+                                    el("div", { key: `${comp.skill}-${selectedCategory}`, className: "animate-fade-in h-full" },
+                                        el(CompetencyCard, {
+                                            skill: comp.skill,
+                                            category: comp.category,
+                                            desc: comp.desc,
+                                            icon: comp.icon,
+                                            highlights: comp.highlights
+                                        })
+                                    )
                                 )
                             )
                         )
